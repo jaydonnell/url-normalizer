@@ -2,6 +2,20 @@
   (:require [clojure.contrib.str-utils2 :as su])
   (:import [java.net URI]))
 
+(def default-port
+{
+ "ftp" 21
+ "telnet" 23
+ "http" 80
+ "gopher" 70
+ "news" 119
+ "nntp" 119
+ "prospero" 191
+ "https" 443
+ "snews" 563
+ "snntp" 563
+})
+
 (defn normalize-port [uri]
   (let [port (.getPort uri)]
     (if (or (nil? port) (= port -1) (= port 80))

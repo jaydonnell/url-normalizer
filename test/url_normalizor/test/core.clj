@@ -52,6 +52,14 @@
          false "http://example.com:081/"
  ])
 
+(deftest test-pace-tests
+  (doall
+    (map 
+     (fn [[expected url]]
+       (is (= (= url (canonicalize-url url)) expected)
+           (str url " normalized incorrectly")))
+     (partition 2 pace-tests))))
+
 ;; mnot test suite; three tests updated for rfc2396bis.
 (def mnot-tests 
 [
@@ -90,4 +98,13 @@
         "http://www.example.com./"      "http://www.example.com/"
         "-"                             "-"
  ])
+
+(deftest test-mnot-tests
+  (doall
+    (map 
+     (fn [[original normalized]]
+       (is (= normalized (canonicalize-url original)) 
+           (str original " normalized should be " normalized)))
+     (partition 2 mnot-tests))))
+
 
