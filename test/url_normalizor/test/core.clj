@@ -8,12 +8,14 @@
   (is (url-equal? "http://jaydonnell.com:80" "http://jaydonnell.com")))
 
 (deftest test-canonical-url
-  (is (= "http://jaydonnell.com" (canonicalize-url "http://jaydonnell.com")))
-  (is (= "http://jaydonnell.com" (canonicalize-url "http://jaydonnell.com:80")))
-  (is (= "http://jaydonnell.com" (canonicalize-url "http://Jaydonnell.com")))
-  (is (= "http://jaydonnell.com" (canonicalize-url "Http://Jaydonnell.com")))
-  (is (= "http://jaydonnell.com" (canonicalize-url "http://jaydonnell.com#blah"))))
-
+  (let [want "http://jaydonnell.com/"
+        tests ["http://jaydonnell.com"
+               "http://jaydonnell.com:80"
+               "http://Jaydonnell.com"
+               "Http://Jaydonnell.com"
+               "http://jaydonnell.com#blah"]]
+    (doall (map #(is (= want (canonicalize-url %))) tests))
+   ))
 
 (def pace-tests [ 
          false "http://:@example.com/"
