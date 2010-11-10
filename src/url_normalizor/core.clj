@@ -1,3 +1,4 @@
+
 (ns url-normalizor.core
   (:require [clojure.contrib.str-utils2 :as su])
   (:import [java.net URI]))
@@ -29,18 +30,22 @@
       path)))
 
 (defn normalize-host [uri]
-  (let [host (.getHost uri)]
+  (if-let [host (.getHost uri)]
     (su/lower-case host)))
 
 (defn normalize-scheme [uri]
-  (let [scheme (.getScheme uri)]
+  (if-let [scheme (.getScheme uri)]
     (su/lower-case scheme)))
 
 (defmulti canonicalize-url class)
 (defmethod canonicalize-url URI [uri]
-           (str (normalize-scheme uri) "://"
-                (normalize-host uri) (normalize-port uri)
-                (normalize-path uri) (.getQuery uri)))
+ (let [scheme (normalize-scheme uri)
+       scheme-connector (if scheme "://" "")
+       host  (normalize-host uri)
+       port  (normalize-port uri)
+       path  (normalize-path uri) 
+       query (.getQuery uri)]
+    (str scheme scheme-connector host port path query)))
 (defmethod canonicalize-url String [url]
            (canonicalize-url (URI. url)))
 
