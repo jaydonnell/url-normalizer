@@ -1,6 +1,6 @@
 # url-normalizor
 
-Normalize URLs
+Normalize URLs. See the [tests](https://github.com/jashmenn/url-normalizer/blob/master/test/url_normalizer/test/core.clj#L87).
 
 ## Usage
 
@@ -8,6 +8,7 @@ Normalize URLs
        (:use [url-normalizer.core))
 
      (canonicalize-url "http://www.example.com")
+
 
 ## Installation
 
@@ -38,6 +39,6 @@ Tests taken from Sam Ruby's version of `urlnorm.py`
 
 ## License
 
-Copyright (C) 2010 FIXME
+Copyright (C) 2010 
 
 Distributed under the Eclipse Public License, the same as Clojure.
