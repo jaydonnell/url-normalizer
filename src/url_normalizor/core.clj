@@ -18,33 +18,37 @@
 })
 
 (defn normalize-port [uri]
-  (let [port (.getPort uri)]
-    (if (or (nil? port) (= port -1) (= port 80))
+  (let [scheme (.getScheme uri)
+        port (.getPort uri)]
+    (if (or (nil? port) 
+            (= port -1) 
+            (and (contains? default-port scheme)
+                 (= port (default-port scheme))))
       nil
       (str ":" port))))
 
 (defn normalize-path-dot-segments [uri]
-  (let [path (.getPath uri)
-        segments (su/split path #"/" -1)
-        ;;x (prn segments)
-        ;; resolve relative paths
-        segs2 (reduce 
-               (fn [acc segment]
-                 (cond
-                  (= "" segment ) (if (> (count acc) 0)
-                                    acc
-                                    (concat acc [segment]))
-                  (= "."  segment) acc 
-                  (= ".." segment) (if (> (count acc) 1)
-                                     (drop-last acc)
-                                     acc)
-                  true (concat acc [segment]) 
-                  )) [] segments)
-        ;; add a slash if the last segment is "" "." ".."
-        new-segments (if (contains? #{"" "." ".."} (last segments))
-                       (concat segs2 [nil])
-                       segs2)]
-    (su/join "/" new-segments)))
+  (if-let [path (.getPath uri)]
+   (let [segments (su/split path #"/" -1)
+         ;;x (prn segments)
+         ;; resolve relative paths
+         segs2 (reduce 
+                (fn [acc segment]
+                  (cond
+                   (= "" segment ) (if (> (count acc) 0)
+                                     acc
+                                     (concat acc [segment]))
+                   (= "."  segment) acc 
+                   (= ".." segment) (if (> (count acc) 1)
+                                      (drop-last acc)
+                                      acc)
+                   true (concat acc [segment]) 
+                   )) [] segments)
+         ;; add a slash if the last segment is "" "." ".."
+         new-segments (if (contains? #{"" "." ".."} (last segments))
+                        (concat segs2 [nil])
+                        segs2)]
+     (su/join "/" new-segments))))
 
 (defn normalize-path [uri]
   (let [path (normalize-path-dot-segments uri)]
