@@ -68,7 +68,14 @@
 
 (defn normalize-auth [uri]
   (let [user-info (.getUserInfo uri)]
-    (if user-info (str user-info "@") "")))
+    (if (and user-info
+             (not (contains? #{"" ":"} user-info))) 
+      (str user-info "@") 
+      "")))
+
+(defn normalize-query [uri] ;; TODO
+  ;; (prn (.getRawQuery uri))
+  (.getQuery uri))
 
 (defmulti canonicalize-url class)
 (defmethod canonicalize-url URI [uri]
@@ -78,7 +85,7 @@
        host  (normalize-host uri)
        port  (normalize-port uri)
        path  (normalize-path uri) 
-       query (.getQuery uri)]
+       query (normalize-query uri)]
     (str scheme scheme-connector auth host port path query)))
 (defmethod canonicalize-url String [url]
            (canonicalize-url (URI. url)))
