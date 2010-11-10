@@ -26,14 +26,14 @@ maven
 ## Authors
 
 * Jay Donnell
-* Nate Murray <nate@xcombinator.com>
+* Nate Murray [<nate@xcombinator.com>](mailto:nate@xcombinator.com)
 
 Tests taken from Sam Ruby's version of `urlnorm.py`
 
 ## See Also
 
-* Sam Ruby's: http://intertwingly.net/blog/2004/08/04/Urlnorm
-* http://en.wikipedia.org/wiki/URL_normalization
+* Sam Ruby's [`urlnorm.py`](http://intertwingly.net/blog/2004/08/04/Urlnorm)
+* [Wikipedia Page on URL Normalization](http://en.wikipedia.org/wiki/URL_normalization)
 * [Sang Ho Lee, Sung Jin Kim, and Seok Hoo Hong (2005). "On URL normalization". Proceedings of the International Conference on Computational Science and its Applications (ICCSA 2005). pp. 1076–1085.](http://dblab.ssu.ac.kr/publication/LeKi05a.pdf)
 
 ## License
