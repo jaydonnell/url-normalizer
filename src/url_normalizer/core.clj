@@ -1,5 +1,5 @@
 
-(ns url-normalizor.core
+(ns url-normalizer.core
   (:require [clojure.contrib.str-utils2 :as su])
   (:import [java.net URI]))
 

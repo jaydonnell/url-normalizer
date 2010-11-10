@@ -1,5 +1,5 @@
-(ns url-normalizor.test.core
-  (:use [url-normalizor.core] :reload)
+(ns url-normalizer.test.core
+  (:use [url-normalizer.core] :reload)
   (:use [clojure.test]))
 
 (deftest test-url-equal?

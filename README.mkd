@@ -5,7 +5,7 @@ Normalize URLs
 ## Usage
 
      (ns my.namespace
-       (:use [url-normalizor.core))
+       (:use [url-normalizer.core))
 
      (canonicalize-url "http://www.example.com")
 
@@ -13,13 +13,13 @@ Normalize URLs
 
 leiningen
 
-    [url-normalizor "0.0.2"]
+    [url-normalizer "0.0.2"]
 
 maven
 
     <dependency>
-      <groupId>url-normalizor</groupId>
-      <artifactId>url-normalizor</artifactId>
+      <groupId>url-normalizer</groupId>
+      <artifactId>url-normalizer</artifactId>
       <version>0.0.2</version>
     </dependency>
 
