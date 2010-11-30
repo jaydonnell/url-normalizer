@@ -1,3 +1,4 @@
+
 (ns url-normalizer.test.core
   (:use [url-normalizer.core] :reload)
   (:use [clojure.test]))
@@ -13,10 +14,11 @@
                "http://jaydonnell.com:80"
                "http://Jaydonnell.com"
                "Http://Jaydonnell.com"
-               "http://jaydonnell.com#blah"]]
+               "http://jaydonnell.com#blah"
+               (java.net.URI. "http://jaydonnell.com")
+               (java.net.URL. "http://jaydonnell.com")]]
     (doall (map #(is (= want (canonicalize-url %))) tests))
    ))
-
 
 
 (def pace-tests [ 
@@ -118,6 +120,7 @@
         ;; other
         true  "http://www.w3.org/2000/01/rdf-schema#"
   ])
+
 
 ;; (deftest test-failing-tests
 ;;   (doall

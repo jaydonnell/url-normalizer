@@ -1,7 +1,7 @@
 
 (ns url-normalizer.core
   (:require [clojure.contrib.str-utils2 :as su])
-  (:import [java.net URI]))
+  (:import [java.net URI URL]))
 
 (def default-port
 {
@@ -89,6 +89,9 @@
     (str scheme scheme-connector auth host port path query)))
 (defmethod canonicalize-url String [url]
            (canonicalize-url (URI. url)))
+(defmethod canonicalize-url URL [url]
+           (canonicalize-url (str url)))
+
 
 (defmulti url-equal? (fn [a b] [(class a) (class b)]))
 
