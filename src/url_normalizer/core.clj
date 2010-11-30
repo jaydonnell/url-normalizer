@@ -50,10 +50,15 @@
                         segs2)]
      (su/join "/" new-segments))))
 
+(defn only-percent-encode-where-essential [path]
+  (comment "Where is it non-essential besides tilde ~ ?. a bit of a hack, will extend as new test cases are presented" )
+  (su/replace path #"(?i:%7e)" "~"))
+
 (defn normalize-path [uri]
-  (let [path (normalize-path-dot-segments uri)]
+  (let [path (normalize-path-dot-segments uri)
+        path2 (only-percent-encode-where-essential path)]
     ;; (if (or (= path "") (= path "/")) "" path)
-    path))
+    path2))
 
 (defn normalize-host [uri]
   (if-let [host (.getHost uri)]
@@ -74,8 +79,20 @@
       "")))
 
 (defn normalize-query [uri] ;; TODO
-  ;; (prn (.getRawQuery uri))
-  (.getQuery uri))
+  (if-let [q (.getQuery uri)] 
+    (str "?" q)))
+
+(defmulti to-uri class)
+(defmethod to-uri URL [url] 
+   (URI. (.getProtocol url)
+         (.getUserInfo url)
+         (.getHost url)
+         (.getPort url)
+         (.getPath url)
+         (.getQuery url)
+         (.getRef url)))
+;; (defmethod to-uri String [url]
+;;  (to-uri (URL. url)))
 
 (defmulti canonicalize-url class)
 (defmethod canonicalize-url URI [uri]
@@ -87,11 +104,13 @@
        path  (normalize-path uri) 
        query (normalize-query uri)]
     (str scheme scheme-connector auth host port path query)))
+(defmethod canonicalize-url URL [url] (canonicalize-url (to-uri url)))
 (defmethod canonicalize-url String [url]
-           (canonicalize-url (URI. url)))
-(defmethod canonicalize-url URL [url]
-           (canonicalize-url (str url)))
-
+  (try 
+    (canonicalize-url (to-uri (URL. url)))
+    (catch java.net.URISyntaxException    e (canonicalize-url (URI. url)))
+    (catch java.net.MalformedURLException e (canonicalize-url (URI. url)))
+    ))
 
 (defmulti url-equal? (fn [a b] [(class a) (class b)]))
 
@@ -99,9 +118,3 @@
            (let [u1 (canonicalize-url (URI. url1))
                  u2 (canonicalize-url (URI. url2))]
              (= u1 u2)))
-
-(comment  1. DONE Normalizing the port
-          2. DONE Case insensitive shceme and authority
-          3. DONE "http://jaydonnell.com/" and "http://jaydonnell.com" are the same
-          4. Decode unreserved characters
-          5. DONE Remove fragments)

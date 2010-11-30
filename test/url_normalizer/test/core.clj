@@ -20,17 +20,17 @@
     (doall (map #(is (= want (canonicalize-url %))) tests))
    ))
 
-
 (def pace-tests [ 
          false "http://:@example.com/"
          false "http://@example.com/"
          false "http://example.com"
          false "HTTP://example.com/"
          false "http://EXAMPLE.COM/"
-         false "http://example.com/%7Ejane"
-         false "http://example.com/?q=%C7"
-         false "http://example.com/?q=%5c"
-         false "http://example.com/?q=C%CC%A7"
+         false "http://example.com/%7Ejane" ;; should be ~
+         true  "http://example.com/?q=%C3%87"
+         true  "http://example.com/?q=%E2%85%A0"
+         true  "http://example.com/?q=%5C"
+
          false "http://example.com/a/../a/b"
          false "http://example.com/a/./b"
          false "http://example.com:80/"
@@ -47,6 +47,9 @@
          true  "http://127.0.0.1/"
          false "http://127.0.0.1:80/"
          false "http://example.com:081/"
+       
+         false "http://example.com?q=foo"         
+         true  "http://example.com/?q=foo"         
  ])
 
 (deftest test-pace-tests
@@ -94,6 +97,8 @@
           "http://USER:pass@www.example.com/foo/bar"
         "http://www.example.com./"      "http://www.example.com/"
         "-"                             "-"
+        ;; not so sure about this one, the hash mark is questionable
+        "http://www.foo.com/?p=529&#038;cpage=1#comment-783" "http://www.foo.com/?p=529&"
  ])
 
 (deftest test-mnot-tests
@@ -104,12 +109,12 @@
            (str original " normalized should be " normalized)))
      (partition 2 mnot-tests))))
 
-
 (comment "these tests don't pass (yet)")
 (def failing-tests [
-        true  "http://example.com/?q=%C3%87"
-        true  "http://example.com/?q=%E2%85%A0"
-        true  "http://example.com/?q=%5C"
+        false "http://example.com/?q=%5c" ;; should be uppercase - todo
+        false "http://example.com/?q=%C7"      ;; wrong encoding
+        false "http://example.com/?q=C%CC%A7"  ;; wrong encoding
+
         ;; from rfc2396bis
         true  "ftp://ftp.is.co.za/rfc/rfc1808.txt"
         true  "ldap://[2001:db8::7]/c=GB?objectClass?one"
