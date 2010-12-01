@@ -51,7 +51,7 @@
      (su/join "/" new-segments))))
 
 (defn only-percent-encode-where-essential [path]
-  (comment "Where is it non-essential besides tilde ~ ?. a bit of a hack, will extend as new test cases are presented" )
+  (comment "Where is it non-essential besides tilde ~ ?. a bit of a hack, will extend as new test cases are presented. see: http://labs.apache.org/webarch/uri/rfc/rfc3986.html#unreserved" )
   (su/replace path #"(?i:%7e)" "~"))
 
 (defn normalize-path [uri]
