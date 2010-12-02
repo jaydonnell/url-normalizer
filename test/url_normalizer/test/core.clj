@@ -86,6 +86,7 @@
         "/foo//"                        "/foo/"
         "/foo///bar//"                  "/foo/bar/"
         "http://www.foo.com:80/foo"     "http://www.foo.com/foo"
+        "http://www.foo.com/foo/../foo"     "http://www.foo.com/foo"
         "http://www.foo.com:8000/foo"   "http://www.foo.com:8000/foo"
         "http://www.foo.com./foo/bar.html" "http://www.foo.com/foo/bar.html"
         "http://www.foo.com.:81/foo"    "http://www.foo.com:81/foo"
