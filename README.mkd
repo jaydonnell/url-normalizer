@@ -14,14 +14,14 @@ Normalize URLs. See the [tests](https://github.com/jashmenn/url-normalizer/blob/
 
 leiningen
 
-    [url-normalizer "0.0.2"]
+    [url-normalizer "0.0.4"]
 
 maven
 
     <dependency>
       <groupId>url-normalizer</groupId>
       <artifactId>url-normalizer</artifactId>
-      <version>0.0.2</version>
+      <version>0.0.4</version>
     </dependency>
 
 ## Authors
