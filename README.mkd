@@ -14,7 +14,7 @@ Normalize URLs. See the [tests](https://github.com/jashmenn/url-normalizer/blob/
 
 leiningen
 
-    [url-normalizer "0.0.4"]
+    [url-normalizer "0.0.5"]
 
 maven
 
