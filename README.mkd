@@ -39,6 +39,6 @@ Tests taken from Sam Ruby's version of `urlnorm.py`
 
 ## License
 
-Copyright (C) 2010 
+Copyright (C) 2010
 
 Distributed under the Eclipse Public License, the same as Clojure.
