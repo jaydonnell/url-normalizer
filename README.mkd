@@ -1,4 +1,4 @@
-# url-normalizor
+# url-normalizer
 
 Normalize URLs. See the [tests](https://github.com/jashmenn/url-normalizer/blob/master/test/url_normalizer/test/core.clj#L87).
 
